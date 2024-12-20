@@ -2,6 +2,7 @@
 ; Sonic The Hedgehog Game Gear Disassembly
 ;
 ; Lead Disassembler: Filter
+; Helpers: NaotoNTP (Helped out with compilation, thanks a bunch! -- Filter)
 ; =============================================================
 
 START:
