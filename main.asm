@@ -13,19 +13,19 @@ _LOOP:
 	IN	A,($7E)
 	CP	$B0
 	JR	NZ,_LOOP
-	JP	$0296
+	JP	$296
 	
 	ALIGN	$18
 	
-	JP	$02E2
+	JP	$2E2
 	
-	ALIGN	$08
+	ALIGN	8
 	
-	JP	$02F8
+	JP	$2F8
 	
-	ALIGN	$08
+	ALIGN	8
 	
-	JP	$0309
+	JP	$309
 	
 	ALIGN	$38
 	
@@ -34,13 +34,14 @@ VINT:
 	
 	; Header information, removed in the international release
 	DB	"Developed By (C) 1991 Ancient - S", $A5, "Hayashi."
-	DB	$00
+	DB	0
 	
+	; Uncertain
 	DI
 	PUSH	AF
-	LD	A,(IY+$07)
-	XOR	$08
-	LD	(IY+$07),A
+	LD	A,(IY+7)
+	XOR	8
+	LD	(IY+7),A
 	POP	AF
 	EI
 	RET
@@ -52,18 +53,18 @@ VINT_JUMP:
 	PUSH	DE
 	PUSH	BC
 	IN	A,($BF)
-	BIT	7,(IY+$06)
+	BIT	7,(IY+6)
 	JR	Z,LOC_AC
 	LD	A,($D241)
 	AND	A
-	JP	NZ,$01B4
+	JP	NZ,$1B4
 	LD	A,($D2DC)
 	AND	A
 	JR	Z,LOC_AC
 	CP	$FF
 	JR	Z,LOC_AC
 	LD	($D242),A
-	LD	A,$0A
+	LD	A,$A
 	OUT	($BF),A
 	LD	A,$8A
 	OUT	($BF),A
@@ -80,19 +81,19 @@ LOC_AC:
 	PUSH	IY
 	LD	HL,($D22F)
 	PUSH	HL
-	BIT	0,(IY+$00)
-	CALL	NZ,$0180
-	BIT	0,(IY+$00)
-	CALL	Z,$00F0
+	BIT	0,(IY+0)
+	CALL	NZ,$180
+	BIT	0,(IY+0)
+	CALL	Z,$F0
 	EI
 	LD	A,3
 	LD	($FFFE),A
 	LD	($D22F),A
 	CALL	$4000
-	CALL	$0602
+	CALL	$602
 	BIT	4,(IY+3)
-	CALL	Z,$00EB
-	CALL	$0688
+	CALL	Z,SUB_EB
+	CALL	$688
 	POP	HL
 	LD	($FFFE),HL
 	LD	($D22F),HL
@@ -102,4 +103,60 @@ LOC_AC:
 	POP	DE
 	POP	HL
 	POP	AF
+	RET
+	
+SUB_EB:
+	RES	5,(IY+3)
+	RET
+	
+SUB_F0:
+	LD	A,($D21A)
+	AND	$BF
+	OUT	($BF),A
+	LD	A,$81
+	OUT	($BF),A
+	LD	A,($D24B)
+	NEG
+	OUT	($BF),A
+	LD	A,$88
+	OUT	($BF),A
+	LD	A,($D24C)
+	OUT	($BF),A
+	LD	A,$89
+	OUT	($BF),A
+	BIT	5,(IY+0)
+	CALL	NZ,$83E
+	CALL	$172
+	LD	A,1
+	LD	($FFFE),A
+	LD	($D22F),A
+	LD	A,2
+	LD	($FFFF),A
+	LD	($D230),A
+	BIT	1,(IY+0)
+	CALL	NZ,$33F
+	LD	A,8
+	LD	($FFFE),A
+	LD	($D22F),A
+	LD	A,9
+	LD	($FFFF),A
+	LD	($D230),A
+	BIT	7,(IY+7)
+	CALL	NZ,$31BC
+	LD	A,1
+	LD	($FFFE),A
+	LD	($D22F),A
+	LD	A,2
+	LD	($FFFF),A
+	LD	($D230),A
+	LD	A,($D2AC)
+	AND	$80
+	CALL	Z,$3282
+	LD	A,$FF
+	LD	($D2AC),A
+	LD	A,($D21A)
+	OUT	($BF),A
+	LD	A,$81
+	OUT	($BF),A
+	SET	0,(IY+0)
 	RET
