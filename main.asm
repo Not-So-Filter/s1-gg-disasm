@@ -57,7 +57,7 @@ VINT_JUMP:
 	JR	Z,LOC_AC
 	LD	A,($D241)
 	AND	A
-	JP	NZ,$1B4
+	JP	NZ,LOC_1B4
 	LD	A,($D2DC)
 	AND	A
 	JR	Z,LOC_AC
@@ -277,3 +277,155 @@ DATA_216:
 	INCBIN	"levels/lz/palettes/underwaterA.bin"
 DATA_256:
 	INCBIN	"levels/lz/palettes/underwaterB.bin"
+	
+LOC_296:
+	LD	A,$80
+	LD	($FFFC),A
+	LD	A,0
+	LD	($FFFD),A
+	LD	A,1
+	LD	($FFFE),A
+	LD	A,2
+	LD	($FFFF),A
+	LD	HL,$C000
+	LD	DE,$C001
+	LD	BC,$1FEF
+	LD	(HL),L
+	LDIR
+	LD	SP,HL
+	LD	HL,DATA_31C
+	LD	DE,$D219
+	LD	B,$B
+	LD	C,$8B
+	
+LOC_2C1:
+	LD	A,(HL)
+	LD	(DE),A
+	INC	HL
+	INC	DE
+	OUT	($BF),A
+	LD	A,C
+	SUB	B
+	OUT	($BF),A
+	DJNZ	LOC_2C1
+	LD	HL,$3F00
+	LD	BC,$40
+	LD	A,$E0
+	CALL	$5F0
+	CALL	SUB_2F8
+	LD	IY,$D200
+	JP	$1356
+	
+SUB_2E2:
+	DI
+	PUSH	AF
+	LD	A,3
+	LD	($FFFE),A
+	POP	AF
+	LD	($D2D3),A
+	CALL	$4012
+	LD	A,($D22F)
+	LD	($FFFE),A
+	EI
+	RET
+	
+SUB_2F8:
+	DI
+	LD	A,3
+	LD	($FFFE),A
+	CALL	$4006
+	LD	A,($D22F)
+	LD	($FFFE),A
+	EI
+	RET
+	
+SUB_309:
+	DI
+	PUSH	AF
+	LD	A,3
+	LD	($FFFE),A
+	POP	AF
+	CALL	$4015
+	LD	A,($D22F)
+	LD	($FFFE),A
+	EI
+	RET
+	
+DATA_31C:
+	DB	$26
+	DB	$A2
+	DB	$FF
+	DB	$FF
+	DB	$FF
+	DB	$FF
+	DB	$FF
+	DB	0
+	DB	0
+	DB	0
+	DB	$FF
+	
+SUB_327:
+	BIT	0,(IY+0)
+	JR	Z,SUB_327
+	RET
+	
+	SET	2,(IY+0)
+	LD	($D226),HL
+	LD	($D228),DE
+	LD	($D22A),BC
+	RET
+	
+	RET
+	
+SUB_33F:
+	LD	A,0
+	OUT	($BF),A
+	LD	A,$3F
+	OR	$40
+	OUT	($BF),A
+	LD	B,(IY+$A)
+	LD	HL,$D001
+	LD	DE,3
+	LD	A,B
+	AND	A
+	JR	Z,LOC_35C
+	
+LOC_356:
+	LD	A,(HL)
+	OUT	($BE),A
+	ADD	HL,DE
+	DJNZ	LOC_356
+	
+LOC_35C:
+	LD	A,($D2B5)
+	LD	B,A
+	LD	A,(IY+$A)
+	LD	C,A
+	CP	B
+	JR	NC,LOC_370
+	LD	A,B
+	SUB	C
+	LD	B,A
+	
+LOC_36A:
+	LD	A,$E0
+	OUT	($BE),A
+	DJNZ	LOC_36A
+	
+LOC_370:
+	LD	A,C
+	AND	A
+	RET	Z
+	LD	HL,$D000
+	LD	B,(IY+$A)
+	LD	A,$80
+	OUT	($BF),A
+	LD	A,$3F
+	OR	$40
+	OUT	($BF),A
+	
+	ALIGN $8000-$10
+	DB	"TMR SEGA"
+	
+	ALIGN $8000-$42
+	DB	" & Game Gear Version.  '1991 (C)Ancient. (BANK0-4)",$A2,"SONIC THE HEDGE"
