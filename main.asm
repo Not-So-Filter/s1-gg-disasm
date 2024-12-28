@@ -13,19 +13,22 @@ _LOOP:
 	IN	A,($7E)
 	CP	$B0
 	JR	NZ,_LOOP
-	JP	$296
+	JP	LOC_296
 	
 	ALIGN	$18
 	
-	JP	$2E2
+RST_18:
+	JP	SUB_2E2
 	
 	ALIGN	8
 	
-	JP	$2F8
+RST_20:
+	JP	SUB_2F8
 	
 	ALIGN	8
-	
-	JP	$309
+
+RST_28:
+	JP	SUB_309
 	
 	ALIGN	$38
 	
